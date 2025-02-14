@@ -14,8 +14,8 @@ public interface EventsRepository extends MongoRepository<EventMetadata, String>
     // Future work: Implement methods to delete Event Metadata
 
     @Query("{ 'eventId' : ?0 }")
-    long deleteByEventId(String eventId);
+    long deleteEventById(String eventId);
 
     @Query("{ 'eventId' : ?0 }")
-    Optional<EventMetadata> findByEventId(String eventId);
+    Optional<EventMetadata> getEventById(String eventId);
 }
