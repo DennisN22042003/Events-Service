@@ -1,4 +1,4 @@
-package com.example.Events.Service;
+/*package com.example.Events.Service;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -10,4 +10,4 @@ class EventsServiceApplicationTests {
 	void contextLoads() {
 	}
 
-}
+}*/

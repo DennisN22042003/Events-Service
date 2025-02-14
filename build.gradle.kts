@@ -26,6 +26,8 @@ repositories {
 extra["springCloudVersion"] = "2024.0.0"
 
 dependencies {
+	implementation("org.springframework.kafka:spring-kafka:3.3.2")
+
 	implementation("org.springframework.boot:spring-boot-starter-actuator")
 	implementation("org.springframework.boot:spring-boot-starter-data-mongodb")
 	implementation("org.springframework.boot:spring-boot-starter-web")
