@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.*;
 import com.example.Events.Service.Services.EventsService;
 import com.example.Events.Service.Models.EventMetadata;
 import com.example.Events.Service.Repositories.EventsRepository;
+import java.util.Map;
+import java.util.HashMap;
 
 
 @RestController
@@ -21,9 +23,15 @@ public class EventController {
 
     // Create an event
     @PostMapping("/create")
-    public ResponseEntity<EventMetadata> createEvent(@RequestParam String name, @RequestParam String createdBy) {
+    public ResponseEntity<Map<String, String>> createEvent(@RequestParam String name, @RequestParam String createdBy) {
         EventMetadata eventMetadata = eventService.createEvent(name, createdBy);
-        return ResponseEntity.ok(eventMetadata);
+
+        // Construct a response with eventId (to allow the media service know which event an image belongs to)
+        Map<String, String> response = new HashMap<>();
+        response.put("eventId", eventMetadata.getId());
+        response.put("message", "Event created successfully");
+
+        return ResponseEntity.ok(response);
     }
 
     // Validate if event exists
