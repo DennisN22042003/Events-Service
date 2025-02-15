@@ -11,6 +11,7 @@ import java.time.LocalDateTime;
 public class EventMetadata {
     @Id
     private String id;
+    private String eventUrl;
     private String name;
     private String createdBy;
     private LocalDateTime createdAt;
@@ -33,6 +34,13 @@ public class EventMetadata {
     }
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getUrl() {
+        return eventUrl;
+    }
+    public void setUrl() {
+        this.eventUrl = eventUrl;
     }
 
     public String getName() {

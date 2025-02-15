@@ -19,21 +19,20 @@ public class EventsService {
 
     // Create a new event
     public EventMetadata createEvent(String name, String createdBy) {
-        // Generate a unique event ID (UUID)
-        String eventId = UUID.randomUUID().toString();
-
         // Save Event Metadata in MongoDB
         EventMetadata metadata = new EventMetadata();
         metadata.setName(name);
         metadata.setCreatedAt(LocalDateTime.now());
         metadata.setCreatedBy("testEventCreator");
 
-        return eventsRepository.save(metadata);
+        // Save and return the event
+        EventMetadata savedEventMetadata = eventsRepository.save(metadata);
+        return savedEventMetadata;
     }
 
     // Validate if event exists
     public boolean isEventMetadataValid(String eventId) {
-        return eventsRepository.getEventById(eventId).isPresent();
+        return eventsRepository.findById(eventId).isPresent();
     }
 
     // Link media to an event
@@ -41,7 +40,14 @@ public class EventsService {
         Optional<EventMetadata> optionalEventMetadata = eventsRepository.findById(eventId);
         if (optionalEventMetadata.isPresent()) {
             EventMetadata eventMetadata = optionalEventMetadata.get();
-            eventMetadata.setImageIds(Collections.singletonList(imageId));
+
+            // Append the imageId of a new image instead of replacing the list
+            if (eventMetadata.getImgageIds() == null) {
+                eventMetadata.setImageIds(Collections.singletonList(imageId));
+            } else {
+                eventMetadata.getImgageIds().add(imageId);
+            }
+
             eventsRepository.save(eventMetadata);
             return true;
         }

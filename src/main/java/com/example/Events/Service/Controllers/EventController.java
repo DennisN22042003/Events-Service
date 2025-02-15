@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import com.example.Events.Service.Services.EventsService;
 import com.example.Events.Service.Models.EventMetadata;
 import com.example.Events.Service.Repositories.EventsRepository;
+
 import java.util.Map;
 import java.util.HashMap;
 
@@ -25,10 +26,16 @@ public class EventController {
     @PostMapping("/create")
     public ResponseEntity<Map<String, String>> createEvent(@RequestParam String name, @RequestParam String createdBy) {
         EventMetadata eventMetadata = eventService.createEvent(name, createdBy);
+        String eventId = eventMetadata.getId();
 
-        // Construct a response with eventId (to allow the media service know which event an image belongs to)
+        // Generate a slug from event name (lowercase + hyphens, instead of spaces)
+        String slug = name.toLowerCase().replace(" ", "-");
+        String eventUrl = "http://localhost:8082/api/events/" + slug + "-" + eventId;
+        
+        // Construct a response with eventId and eventUrl
         Map<String, String> response = new HashMap<>();
-        response.put("eventId", eventMetadata.getId());
+        response.put("eventId", eventId);
+        response.put("eventUrl", eventUrl);
         response.put("message", "Event created successfully");
 
         return ResponseEntity.ok(response);
@@ -41,10 +48,18 @@ public class EventController {
         return ResponseEntity.ok(exists);
     }
 
-    // Fetch an Event
+    // Fetch an Event by eventId
     @GetMapping("/{eventId}")
     public ResponseEntity<EventMetadata> getEventById(@PathVariable String eventId) {
-        return eventsRepository.getEventById(eventId)
+        return eventsRepository.findById(eventId)
+                    .map(ResponseEntity::ok)
+                    .orElse(ResponseEntity.notFound().build());
+    }
+
+    // Fetch an Event by eventUrl
+    @GetMapping("/{slug}-{eventId}")
+    public ResponseEntity<EventMetadata> getEventBySlug(@PathVariable String eventId) {
+        return eventsRepository.findById(eventId)
                     .map(ResponseEntity::ok)
                     .orElse(ResponseEntity.notFound().build());
     }
