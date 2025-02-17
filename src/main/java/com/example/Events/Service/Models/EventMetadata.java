@@ -15,7 +15,7 @@ public class EventMetadata {
     private String name;
     private String createdBy;
     private LocalDateTime createdAt;
-    private List<String> imageIds = new ArrayList<>();
+    private List<String> imageUrls = new ArrayList<>();
 
     // Constructors
     public EventMetadata() {
@@ -64,10 +64,10 @@ public class EventMetadata {
         this.createdAt = createdAt;
     }
 
-    public List<String> getImgageIds() {
-        return imageIds;
+    public List<String> getImageUrls() {
+        return imageUrls;
     }
-    public void setImageIds(List<String> imageIds) {
-        this.imageIds = imageIds;
+    public void setImageUrls(List<String> imageUrls) {
+        this.imageUrls = imageUrls;
     }
 }

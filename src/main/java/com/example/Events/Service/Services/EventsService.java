@@ -5,6 +5,7 @@ import java.util.Optional;
 import java.util.UUID;
 import java.io.IOException;
 import java.util.Collections;
+import java.util.ArrayList;
 import java.time.LocalDateTime;
 import org.springframework.stereotype.Service;
 
@@ -24,6 +25,7 @@ public class EventsService {
         metadata.setName(name);
         metadata.setCreatedAt(LocalDateTime.now());
         metadata.setCreatedBy("testEventCreator");
+        metadata.setImageUrls(new ArrayList<>());
 
         // Save and return the event
         EventMetadata savedEventMetadata = eventsRepository.save(metadata);
@@ -36,17 +38,13 @@ public class EventsService {
     }
 
     // Link media to an event
-    public boolean linkImageToEvent(String eventId, String imageId) {
+    public boolean linkImageToEvent(String eventId, String imageUrl) {
         Optional<EventMetadata> optionalEventMetadata = eventsRepository.findById(eventId);
         if (optionalEventMetadata.isPresent()) {
             EventMetadata eventMetadata = optionalEventMetadata.get();
 
-            // Append the imageId of a new image instead of replacing the list
-            if (eventMetadata.getImgageIds() == null) {
-                eventMetadata.setImageIds(Collections.singletonList(imageId));
-            } else {
-                eventMetadata.getImgageIds().add(imageId);
-            }
+            // Append the imageUrl of a new image instead of replacing the list
+            eventMetadata.getImageUrls().add(imageUrl);
 
             eventsRepository.save(eventMetadata);
             return true;
