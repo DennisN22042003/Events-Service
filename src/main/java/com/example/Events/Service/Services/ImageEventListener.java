@@ -26,12 +26,12 @@ public class ImageEventListener {
         Optional<EventMetadata> optionalEvent = eventsRepository.findById(eventMetadata.getId());
 
         if (optionalEvent.isPresent()) {
-            EventMetadata existingEventMetadata = optionalEvent.get();
+            eventMetadata = optionalEvent.get();
 
             // Append image URL to the list instead fo image ID
-            existingEventMetadata.getImageUrls().addAll(existingEventMetadata.getImageUrls());
-            eventsRepository.save(existingEventMetadata);
-            System.out.println("✅ Image URL added to event: " + existingEventMetadata.getId());
+            eventMetadata.getImageUrls().addAll(eventMetadata.getImageUrls());
+            eventsRepository.save(eventMetadata);
+            System.out.println("✅ Image URL added to event: " + eventMetadata.getId());
         } else {
             System.out.println("❌ Event not found: " + eventMetadata.getId());
         }
