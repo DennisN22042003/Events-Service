@@ -20,8 +20,10 @@ public class EventsService {
 
     // Create a new event
     public EventMetadata createEvent(String name, String createdBy) {
+
         // Save Event Metadata in MongoDB
         EventMetadata metadata = new EventMetadata();
+        metadata.setId(UUID.randomUUID().toString());
         metadata.setName(name);
         metadata.setCreatedAt(LocalDateTime.now());
         metadata.setCreatedBy("testEventCreator");

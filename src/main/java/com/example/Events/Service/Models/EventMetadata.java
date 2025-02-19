@@ -10,12 +10,12 @@ import java.time.LocalDateTime;
 @Document(collection = "event_metadata")
 public class EventMetadata {
     @Id
-    private String id;
-    private String eventUrl;
+    private String id; // Ensure this is a String, not an ObjectId
     private String name;
     private String createdBy;
     private LocalDateTime createdAt;
-    private List<String> imageUrls = new ArrayList<>();
+
+    private List<String> imageUrls = new ArrayList<>(); // List to hold image URLs
 
     // Constructors
     public EventMetadata() {
@@ -34,13 +34,6 @@ public class EventMetadata {
     }
     public void setId(String id) {
         this.id = id;
-    }
-
-    public String getUrl() {
-        return eventUrl;
-    }
-    public void setUrl() {
-        this.eventUrl = eventUrl;
     }
 
     public String getName() {

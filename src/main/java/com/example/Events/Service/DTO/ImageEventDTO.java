@@ -27,4 +27,3 @@ public class ImageEventDTO implements Serializable {
         this.imageUrl = imageUrl;
     }
 }
-
