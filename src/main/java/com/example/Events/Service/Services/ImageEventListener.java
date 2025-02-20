@@ -29,8 +29,11 @@ public class ImageEventListener {
         if (imageEventDTO == null) {
             System.out.println("❌ Deserialization failed: imageEventDTO is null");
         } else {
-            System.out.println("📩 Received Image Event: " + imageEventDTO.getImageUrl() + " for Event: " + imageEventDTO.getEventId());
+            System.out.println("📩 Received Image Event: " + imageEventDTO.getImageUrl() + " for Event: " + imageEventDTO.getEventId() + " for User: " + imageEventDTO.getUserId());
         }
+
+        // Make sure that userId is a String (UUID)
+        String userId = imageEventDTO.getUserId();
 
         // Make sure that eventId is a String (UUID)
         String eventId = imageEventDTO.getEventId();
@@ -45,6 +48,13 @@ public class ImageEventListener {
             List<String> existingImageUrls = eventMetadata.getImageUrls();
 
             boolean isFirstImage = existingImageUrls.isEmpty(); // Determine if it's first image being added
+
+            // Ensure guestsUserIds list is initialized
+            if (eventMetadata.getGuestsUserIds() == null) {
+                eventMetadata.setGuestUserIds(new ArrayList<>());
+            }
+            // Add the new guestsUserId
+            eventMetadata.getGuestsUserIds().add(imageEventDTO.getUserId());
 
             // Ensure imageUrls list is initialized
             if (eventMetadata.getImageUrls() == null) {

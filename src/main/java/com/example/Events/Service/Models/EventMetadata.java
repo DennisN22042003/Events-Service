@@ -14,7 +14,7 @@ public class EventMetadata {
     private String name;
     private String createdBy;
     private LocalDateTime createdAt;
-
+    private List<String> guestsUserIds = new ArrayList<>(); // List to hold event guests
     private List<String> imageUrls = new ArrayList<>(); // List to hold image URLs
 
     // Constructors
@@ -62,5 +62,12 @@ public class EventMetadata {
     }
     public void setImageUrls(List<String> imageUrls) {
         this.imageUrls = imageUrls;
+    }
+
+    public List<String> getGuestsUserIds() {
+        return guestsUserIds;
+    }
+    public void setGuestUserIds(List<String> guestsUserIds) {
+        this.guestsUserIds = guestsUserIds;
     }
 }

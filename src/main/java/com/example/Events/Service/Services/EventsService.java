@@ -54,6 +54,21 @@ public class EventsService {
         return false;
     }
 
+    // Link a user to an Event (when they join and/or create an Event)
+    public boolean linkUserToEvent(String eventId, String guestUserId) {
+        Optional<EventMetadata> optionalEventMetadata = eventsRepository.findById(eventId);
+        if (optionalEventMetadata.isPresent()) {
+            EventMetadata eventMetadata = optionalEventMetadata.get();
+            
+            // Append the userId of a new user added to the event instead of replacing the list
+            eventMetadata.getGuestsUserIds().add(guestUserId);
+
+            eventsRepository.save(eventMetadata);
+            return true;
+        }
+        return false;
+    }
+
     // Delete an event
 
     // End an event
