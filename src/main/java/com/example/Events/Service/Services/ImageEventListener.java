@@ -53,8 +53,10 @@ public class ImageEventListener {
             if (eventMetadata.getGuestsUserIds() == null) {
                 eventMetadata.setGuestUserIds(new ArrayList<>());
             }
-            // Add the new guestsUserId
-            eventMetadata.getGuestsUserIds().add(imageEventDTO.getUserId());
+            // Add the new guestsUserId only if it's not already in the list
+            if (!eventMetadata.getGuestsUserIds().contains(userId)) {
+                eventMetadata.getGuestsUserIds().add(userId);
+            }
 
             // Ensure imageUrls list is initialized
             if (eventMetadata.getImageUrls() == null) {
