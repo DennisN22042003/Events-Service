@@ -60,8 +60,10 @@ public class EventsService {
         if (optionalEventMetadata.isPresent()) {
             EventMetadata eventMetadata = optionalEventMetadata.get();
 
-            // Append the userId of a new user added to the event instead of replacing the list
-            eventMetadata.getGuestsUserIds().add(userId);
+            // Append the userId only if it's not already in the list
+            if (!eventMetadata.getGuestsUserIds().contains(userId)) {
+                eventMetadata.getGuestsUserIds().add(userId);
+            }
 
             eventsRepository.save(eventMetadata);
             return true;
