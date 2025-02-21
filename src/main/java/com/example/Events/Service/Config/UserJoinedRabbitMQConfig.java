@@ -16,18 +16,18 @@ public class UserJoinedRabbitMQConfig {
     public static final String ROUTING_KEY = "user.joined.routingKey";
 
     @Bean
-    public DirectExchange exchange() {
+    public DirectExchange userJoinedExchange() {
         return new DirectExchange(EXCHANGE_NAME);
     }
 
     @Bean
-    public Queue queue() {
+    public Queue userJoinedQueue() {
         return new Queue(QUEUE_NAME, true);
     }
 
     @Bean
-    public Binding binding(Queue queue, DirectExchange exchange) {
-        return BindingBuilder.bind(queue).to(exchange).with(ROUTING_KEY);
+    public Binding userJoinedBinding(Queue userJoinedQueue, DirectExchange userJoinedExchange) {
+        return BindingBuilder.bind(userJoinedQueue).to(userJoinedExchange).with(ROUTING_KEY);
     }
 
     @Bean

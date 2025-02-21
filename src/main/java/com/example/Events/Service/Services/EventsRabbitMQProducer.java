@@ -23,7 +23,7 @@ public class EventsRabbitMQProducer {
         // Create a UserJoinedDTO object
         UserJoinedDTO metadata = new UserJoinedDTO(eventId, userId);
         metadata.getUserId();
-        metadata.getUserId();
+        metadata.getEventId();
         // Log the UserJoinedDTO before serialization
         System.out.println("📤 Preparing to send User-Joined Event: " + metadata.getEventId() + " for User: " + metadata.getUserId());
 
