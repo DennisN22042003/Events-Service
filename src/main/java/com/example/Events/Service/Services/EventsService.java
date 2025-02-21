@@ -11,12 +11,16 @@ import org.springframework.stereotype.Service;
 
 import com.example.Events.Service.Models.EventMetadata;
 import com.example.Events.Service.Repositories.EventsRepository;
+import com.example.Events.Service.DTO.UserJoinedDTO;
 
 @Service
 public class EventsService {
     
     @Autowired
     private EventsRepository eventsRepository;
+
+    @Autowired
+    private EventsRabbitMQProducer eventsRabbitMQProducer;
 
     // Create a new event
     public EventMetadata createEvent(String name, String createdBy) {
@@ -65,7 +69,15 @@ public class EventsService {
                 eventMetadata.getGuestsUserIds().add(userId);
             }
 
+            // Metadata to be sent to the Users Service via RabbitMQ(uses DTO to avoid exposing schemas)
+            UserJoinedDTO DTOmetadata = new UserJoinedDTO(eventId, userId);
+            DTOmetadata.setUserId(userId);
+            DTOmetadata.setEventId(eventId);
+
             eventsRepository.save(eventMetadata);
+
+            // Now send RabbitMQ message to Producer
+            eventsRabbitMQProducer.sendUserJoinedEvent(eventId, userId);
             return true;
         }
         return false;

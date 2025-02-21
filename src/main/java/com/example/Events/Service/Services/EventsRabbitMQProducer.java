@@ -10,6 +10,7 @@ import com.example.Events.Service.DTO.UserJoinedDTO;
 
 @Service
 public class EventsRabbitMQProducer {
+
     @Autowired
     private final RabbitTemplate rabbitTemplate;
 
@@ -22,16 +23,16 @@ public class EventsRabbitMQProducer {
     public void sendUserJoinedEvent(String eventId, String userId) {
         // Create a UserJoinedDTO object
         UserJoinedDTO metadata = new UserJoinedDTO(eventId, userId);
-        metadata.getUserId();
-        metadata.getEventId();
+        //metadata.getEventId();
+        //metadata.getUserId();
         // Log the UserJoinedDTO before serialization
-        System.out.println("📤 Preparing to send User-Joined Event: " + metadata.getEventId() + " for User: " + metadata.getUserId());
+        System.out.println("📤 Preparing to send User-Joined Event: " + metadata /*metadata.getEventId() + " for User: " + metadata.getUserId()*/);
 
-        // Serialize and send the EventMetadata object to RabbitMQ
+        // Serialize and send the UserJoinedDTO object to RabbitMQ
         rabbitTemplate.setMessageConverter(new Jackson2JsonMessageConverter());
         rabbitTemplate.convertAndSend(UserJoinedRabbitMQConfig.EXCHANGE_NAME, UserJoinedRabbitMQConfig.ROUTING_KEY, metadata);
 
         // Log the serialized message sent to RabbitMQ
-        System.out.println("📤 Sent User-Joined Event (Serialized): " + metadata.getEventId() + " for User: " + metadata.getUserId());
+        System.out.println("📤 Sent User-Joined Event (Serialized): " + metadata /*metadata.getEventId() + " for User: " + metadata.getUserId()*/);
     }
 }

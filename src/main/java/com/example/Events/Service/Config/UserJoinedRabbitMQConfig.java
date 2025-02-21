@@ -38,7 +38,7 @@ public class UserJoinedRabbitMQConfig {
     @Bean
     public RabbitTemplate rabbitTemplate(ConnectionFactory connectionFactory) {
         RabbitTemplate rabbitTemplate = new RabbitTemplate(connectionFactory);
-        // No need for a custom message converter as long as DTO is Serializable
+        rabbitTemplate.setMessageConverter(JsonMessageConverter()); // Ensures JSON converter is used globally
         return rabbitTemplate;
     }
 }
