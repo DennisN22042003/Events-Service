@@ -10,9 +10,9 @@ public class ImageEventDTO implements Serializable {
     private String imageUrl;
 
     public ImageEventDTO(String eventId, String imageUrl, String userId) {
-        this.userId = userId;
         this.eventId = eventId;
         this.imageUrl = imageUrl;
+        this.userId = userId;
     }
 
     public String getUserId() {

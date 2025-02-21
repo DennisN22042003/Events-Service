@@ -23,7 +23,7 @@ public class ImageEventListener {
     @Autowired
     private EventsService eventsService;
     
-    @RabbitListener(queues = RabbitMQConfig.QUEUE_NAME)
+    @RabbitListener(queues = RabbitMQConfig.QUEUE_NAME, containerFactory = "rabbitListenerContainerFactory")
     public void receiveImageEvent(ImageEventDTO imageEventDTO) {
         // Log the received event metadata (immediately after deserialization)
         if (imageEventDTO == null) {
