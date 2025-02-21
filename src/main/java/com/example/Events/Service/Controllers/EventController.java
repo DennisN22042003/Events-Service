@@ -2,6 +2,7 @@ package com.example.Events.Service.Controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import com.example.Events.Service.Services.EventsService;
@@ -63,6 +64,22 @@ public class EventController {
                     .map(ResponseEntity::ok)
                     .orElse(ResponseEntity.notFound().build());
     }
+
+    // Join an Event(every other user apart from the Event Creator)
+    @PostMapping("/{eventId}/join")
+    public ResponseEntity<String> joinEvent(@PathVariable String eventId, @RequestParam String userId) {
+        if (!eventService.isEventMetadataValid(eventId)) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("❌ Cannot join Event, event not found");
+        }
+
+        boolean joined = eventService.linkUserToEvent(eventId, userId);
+
+        if (joined) {
+            return ResponseEntity.ok("User: " + userId + " successfully joined event " + eventId);
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("❌ Failed to join event");
+        }
+    } 
 
     // Future work: Delete an Event
 
