@@ -30,7 +30,7 @@ public class EventsService {
         metadata.setId(UUID.randomUUID().toString());
         metadata.setName(name);
         metadata.setCreatedAt(LocalDateTime.now());
-        metadata.setCreatedBy("testEventCreator");
+        metadata.setCreatedBy(createdBy);
         metadata.setImageUrls(new ArrayList<>());
 
         // Save and return the event
