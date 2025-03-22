@@ -38,6 +38,21 @@ public class EventsService {
         return savedEventMetadata;
     }
 
+    // Get event metadata by ID
+    public EventMetadata getEventMetadata(String id) {
+        Optional<EventMetadata> optionalEventMetadata = eventsRepository.findById(id);
+        return optionalEventMetadata.orElse(null);
+    }
+
+    // Get event name by ID
+    public String getEventName(String id) {
+        EventMetadata eventMetadata = getEventMetadata(id);
+        if (eventMetadata != null) {
+            return eventMetadata.getName();
+        }
+        return null;
+    }
+
     // Validate if event exists
     public boolean isEventMetadataValid(String eventId) {
         return eventsRepository.findById(eventId).isPresent();

@@ -67,17 +67,26 @@ public class EventController {
 
     // Join an Event(every other user apart from the Event Creator)
     @PostMapping("/{eventId}/join")
-    public ResponseEntity<String> joinEvent(@PathVariable String eventId, @RequestParam String userId) {
+    public ResponseEntity<Map<String, String>> joinEvent(@PathVariable String eventId, @RequestParam String userId) {
         if (!eventService.isEventMetadataValid(eventId)) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("❌ Cannot join Event, event not found");
+            Map<String, String> errorResponse = new HashMap<>();
+            errorResponse.put("message", "Cannot join Event, event not found");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse);
         }
 
         boolean joined = eventService.linkUserToEvent(eventId, userId);
 
         if (joined) {
-            return ResponseEntity.ok("User: " + userId + " successfully joined event " + eventId);
+            String nightOutName = eventService.getEventName(eventId);
+
+            Map<String, String> successResponse = new HashMap<>();
+            successResponse.put("message", "User: " + userId + " successfully joined event " + eventId);
+            successResponse.put("nightOutName", nightOutName);
+            return ResponseEntity.ok(successResponse);
         } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("❌ Failed to join event");
+            Map<String, String> errorResponse = new HashMap<>();
+            errorResponse.put("message", "Failed to join event");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse);
         }
     } 
 
